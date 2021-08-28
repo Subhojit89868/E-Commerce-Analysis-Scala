@@ -9,14 +9,20 @@ import org.apache.spark.sql.types.{StringType, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.streaming.kafka010._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
+import java.io.File
+import com.typesafe.config.ConfigFactory
 
 object kafkaConsumer {
   def main(args : Array[String]): Unit = {
 
     Logger.getLogger("org").setLevel(Level.ERROR)
-    val broker_id = "localhost:9092"
-    val group_id = "1"
-    val topics = "test"
+    val configPath = System.getProperty("user.dir") + "\\src\\main\\conf\\"
+    val config = ConfigFactory.parseFile(new File(configPath + "consumer.conf"))
+
+    val broker_id = config.getString("broker")
+    val group_id = config.getString("groupId")
+    val topics = config.getString("topicName")
+    val stream_period = config.getString("streamPeriod").toInt
 
     val topicset = topics.split(",").toSet
     val kafkaParams = Map[String, Object](
@@ -27,7 +33,7 @@ object kafkaConsumer {
     )
 
     val sparkconf = new SparkConf().setMaster("local").setAppName("kafkaConsumer")
-    val ssc = new StreamingContext(sparkconf, Seconds(2))
+    val ssc = new StreamingContext(sparkconf, Seconds(stream_period))
 
     val message = KafkaUtils.createDirectStream[String,String](
       ssc,
@@ -64,7 +70,7 @@ object kafkaConsumer {
     }
 
     ssc.start()
-    ssc.awaitTerminationOrTimeout(10000)
+    ssc.awaitTerminationOrTimeout(config.getString("streamTimeout").toInt)
     ssc.stop()
   }
 }

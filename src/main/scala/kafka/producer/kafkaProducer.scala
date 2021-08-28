@@ -6,15 +6,20 @@ import org.apache.kafka.common.serialization._
 import org.apache.kafka.common.utils.Utils.sleep
 import org.apache.log4j._
 import scala.io.Source
+import java.io.File
+import com.typesafe.config.ConfigFactory
 
 object kafkaProducer {
 
   def main(args : Array[String]): Unit = {
 
     Logger.getLogger("org").setLevel(Level.ERROR)
+    val configPath = System.getProperty("user.dir") + "\\src\\main\\conf\\"
+    val config = ConfigFactory.parseFile(new File(configPath + "producer.conf"))
 
-    val broker_id = "localhost:9092"
-    val topics = "test"
+    val broker_id = config.getString("broker")
+    val topics = config.getString("topicName")
+    val rec_delay = config.getString("recordPublishDelay").toInt
 
     val kafkaParams: Properties = {
       val props = new Properties()
@@ -24,12 +29,12 @@ object kafkaProducer {
       props
     }
 
-    val data = Source.fromFile("data/input/sample.txt").getLines.drop(1)
+    val data = Source.fromFile(config.getString("srcPath")).getLines.drop(1)
 
     val producer = new KafkaProducer[String, String](kafkaParams)
     for(lines <- data){
       producer.send(new ProducerRecord[String, String](topics, lines))
-      sleep(1000)
+      sleep(rec_delay)
     }
     producer.close()
   }
