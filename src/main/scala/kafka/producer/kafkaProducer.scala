@@ -24,7 +24,7 @@ object kafkaProducer {
       props
     }
 
-    val data = Source.fromFile("data/sample.txt").getLines.drop(1)
+    val data = Source.fromFile("data/input/sample.txt").getLines.drop(1)
 
     val producer = new KafkaProducer[String, String](kafkaParams)
     for(lines <- data){
