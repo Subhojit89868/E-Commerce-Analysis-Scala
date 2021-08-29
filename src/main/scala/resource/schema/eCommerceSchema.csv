@@ -1,0 +1,4 @@
+id,string,false
+mod_ts,string,false
+amount,string,false
+status,string,false

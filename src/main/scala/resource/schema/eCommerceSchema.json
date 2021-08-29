@@ -1,0 +1,22 @@
+[
+  {
+    "name": "id",
+    "datatype": "StringType",
+    "nullable": false
+  },
+  {
+    "name": "mod_ts",
+    "datatype": "StringType",
+    "nullable": false
+  },
+  {
+    "name": "amount",
+    "datatype": "StringType",
+    "nullable": false
+  },
+  {
+    "name": "status",
+    "datatype": "StringType",
+    "nullable": false
+  }
+]
