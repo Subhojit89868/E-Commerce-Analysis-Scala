@@ -18,17 +18,16 @@ object mainIngestion{
 
     println(LocalDateTime.now() + " : Sourcing Config file.")
     val configPath = System.getProperty("user.dir") + "\\src\\main\\conf\\"
-    val config = ConfigFactory.parseFile(new File(configPath + "consumer.conf"))
+    val config     = ConfigFactory.parseFile(new File(configPath + "consumer.conf"))
     println(LocalDateTime.now() + " : Sourced Config Object : " + config)
 
-    val sparkconf = new SparkConf()
+    val sparkconf  = new SparkConf()
       .setMaster("local")
       .setAppName("kafkaConsumer")
-    val ssc = new StreamingContext(sparkconf, Seconds(config.getString("streamPeriod").toInt))
+    val ssc        = new StreamingContext(sparkconf, Seconds(config.getString("streamPeriod").toInt))
 
-    val message = consumer(ssc, config) // Method from kafka.consumer.kafkaConsumer.consumer
-
-    val lines = message
+    val message    = consumer(ssc, config) // Method from kafka.consumer.kafkaConsumer.consumer
+    val lines      = message
       .map(_.value())
       .flatMap(_.split("\n"))
 

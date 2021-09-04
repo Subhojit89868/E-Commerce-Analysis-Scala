@@ -10,11 +10,11 @@ import org.apache.spark.streaming.dstream.InputDStream
 object kafkaConsumer {
   def consumer(ssc:StreamingContext, config:Config): InputDStream[ConsumerRecord[String, String]] = {
 
-    val broker_id = config.getString("broker")
-    val group_id = config.getString("groupId")
-    val topics = config.getString("topicName")
+    val broker_id   = config.getString("broker")
+    val group_id    = config.getString("groupId")
+    val topics      = config.getString("topicName")
+    val topicSet    = topics.split(",").toSet
 
-    val topicSet = topics.split(",").toSet
     val kafkaParams = Map[String, Object](
       ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> broker_id,
       ConsumerConfig.GROUP_ID_CONFIG -> group_id,

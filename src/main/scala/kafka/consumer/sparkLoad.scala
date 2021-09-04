@@ -13,12 +13,12 @@ object sparkLoad {
       .builder
       .config(rdd.sparkContext.getConf)
       .getOrCreate()
-    val data = rdd
+    val data  = rdd
       .map(_.split(",").to[List])
       .map(line => transform(line))
 
     val userSchema = ingestSchema(config) //Method from resource.ingestSchema
-    val rawDF = spark.createDataFrame(data, userSchema)
+    val rawDF      = spark.createDataFrame(data, userSchema)
 
     rawDF.write
       .mode("append")
@@ -29,7 +29,7 @@ object sparkLoad {
     if(line.nonEmpty){
       var lineAppend = Seq(line.head)
       for(i <- 1 until line.length){
-        lineAppend = lineAppend ++ Seq(line(i))
+        lineAppend   = lineAppend ++ Seq(line(i))
       }
       Row.fromSeq(lineAppend)
     }
