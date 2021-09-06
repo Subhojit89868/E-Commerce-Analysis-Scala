@@ -1,3 +1,3 @@
 # E-Commerce-Analysis-Scala
 
-<a href="http://117.200.95.184:8111/project.html?projectId=ECommerceAnalysisScala"><img src="http://117.200.95.184:8111/app/rest/builds/buildType:(id:ECommerceAnalysisScala_Build)/statusIcon"/></a>
+<a href="https://github.com/Subhojit89868/E-Commerce-Analysis-Scala/actions/workflows/scala.yml"><img src="https://github.com/Subhojit89868/E-Commerce-Analysis-Scala/actions/workflows/scala.yml/badge.svg"/></a>
