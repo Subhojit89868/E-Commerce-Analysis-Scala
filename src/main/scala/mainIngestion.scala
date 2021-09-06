@@ -12,7 +12,7 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 object mainIngestion{
 
-  def main(args: Array[String]): Unit ={
+  def main(args: Array[String]): 
 
     Logger.getLogger("org").setLevel(Level.ERROR)
 
